@@ -25,12 +25,12 @@ export default function AboutPage() {
         {
             icon: Globe,
             title: "Sustainable Tourism",
-            description: "We practice responsible tourism that benefits local communities and preserves Lesotho's natural environment for future generations."
+            description: "We practice responsible tourism that benefits local communities and preserves Lesotho&apos;s natural environment for future generations."
         },
         {
             icon: Award,
             title: "Excellence in Service",
-            description: "Our commitment to exceptional service has earned us recognition as one of Lesotho's premier tour operators."
+            description: "Our commitment to exceptional service has earned us recognition as one of Lesotho&apos;s premier tour operators."
         }
     ];
 
@@ -39,7 +39,7 @@ export default function AboutPage() {
             name: "Mohale Thabane",
             role: "Founder & CEO",
             experience: "12 years",
-            description: "Born and raised in Maseru, Mohale founded LesothoTravel with a vision to share his homeland's beauty with the world.",
+            description: "Born and raised in Maseru, Mohale founded LesothoTravel with a vision to share his homeland&apos;s beauty with the world.",
             speciality: "Business Strategy & Cultural Heritage"
         },
         {
@@ -95,7 +95,7 @@ export default function AboutPage() {
                             <p className="mb-6">
                                 Founded in 2017 by Mohale Thabane, a Maseru native with an unwavering love for his homeland,
                                 LesothoTravel began as a small initiative to share the hidden gems of Lesotho with visitors
-                                from around the world. What started as weekend trips with friends has grown into Lesotho's
+                                from around the world. What started as weekend trips with friends has grown into Lesotho&apos;s
                                 most trusted travel platform.
                             </p>
                             <p className="mb-6">

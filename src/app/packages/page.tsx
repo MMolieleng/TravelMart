@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mountain, MapPin, Users, Star, Clock, Camera, Calendar, DollarSign } from "lucide-react";
+import { Mountain, MapPin, Users, Star, Clock, Camera, Calendar } from "lucide-react";
 
 export default function PackagesPage() {
     const packages = [
@@ -243,8 +243,8 @@ export default function PackagesPage() {
                                     <Mountain className="h-16 w-16 text-gray-400" />
                                     <div className="absolute top-4 right-4">
                                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${pkg.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
-                                                pkg.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-800' :
-                                                    'bg-red-100 text-red-800'
+                                            pkg.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-800' :
+                                                'bg-red-100 text-red-800'
                                             }`}>
                                             {pkg.difficulty}
                                         </span>

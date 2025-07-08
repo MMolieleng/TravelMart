@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mountain, MapPin, Users, Star, Phone, Mail, Calendar, Award, Camera, Mountain as MountainIcon } from "lucide-react";
+import { Mountain, MapPin, Users, Star, Phone, Mail, Calendar, Award } from "lucide-react";
 
 export default function GuidesPage() {
     const allGuides = [
@@ -44,7 +44,7 @@ export default function GuidesPage() {
             phone: "+266 5234 5678",
             email: "lebohang@lesothotravel.ls",
             location: "Thaba-Tseka",
-            description: "Professional photographer and guide who knows all the best spots for capturing Lesotho's stunning landscapes and wildlife.",
+            description: "Professional photographer and guide who knows all the best spots for capturing Lesotho&apos;s stunning landscapes and wildlife.",
             expertise: ["Landscape Photography", "Wildlife Photography", "Sunrise/Sunset Tours", "Photo Editing Workshops"],
             image: "/api/placeholder/200/200"
         },
@@ -74,7 +74,7 @@ export default function GuidesPage() {
             phone: "+266 5456 7890",
             email: "tsepo@lesothotravel.ls",
             location: "Butha-Buthe",
-            description: "Ornithologist and nature enthusiast specializing in Lesotho's unique high-altitude bird species and wetland ecosystems.",
+            description: "Ornithologist and nature enthusiast specializing in Lesotho&apos;s unique high-altitude bird species and wetland ecosystems.",
             expertise: ["Bird Identification", "Wetland Ecosystems", "Nature Conservation", "Endemic Species"],
             image: "/api/placeholder/200/200"
         },
@@ -138,7 +138,7 @@ export default function GuidesPage() {
                             Meet Our Expert Tour Guides
                         </h1>
                         <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-                            Our local guides are passionate experts who will share their deep knowledge of Lesotho's culture,
+                            Our local guides are passionate experts who will share their deep knowledge of Lesotho&apos;s culture,
                             history, and natural wonders to make your journey unforgettable.
                         </p>
                     </div>
