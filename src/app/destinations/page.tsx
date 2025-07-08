@@ -134,7 +134,7 @@ export default function DestinationsPage() {
             <Header currentPage="/destinations" />
 
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+            <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16 pt-32">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">

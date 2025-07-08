@@ -14,7 +14,7 @@ export default function Header({ currentPage }: HeaderProps) {
     ];
 
     return (
-        <header className="bg-white shadow-sm">
+        <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-6">
                     <div className="flex items-center space-x-2">
@@ -29,8 +29,8 @@ export default function Header({ currentPage }: HeaderProps) {
                                 key={item.name}
                                 href={item.href}
                                 className={`${currentPage === item.href
-                                        ? "text-blue-600 font-medium"
-                                        : "text-gray-700 hover:text-blue-600"
+                                    ? "text-blue-600 font-medium"
+                                    : "text-gray-700 hover:text-blue-600"
                                     } transition-colors`}
                             >
                                 {item.name}

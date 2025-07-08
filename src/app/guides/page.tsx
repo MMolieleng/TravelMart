@@ -108,7 +108,7 @@ export default function GuidesPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* Header */}
-            <header className="bg-white shadow-sm">
+            <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-6">
                         <div className="flex items-center space-x-2">
@@ -131,7 +131,7 @@ export default function GuidesPage() {
             </header>
 
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+            <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16 pt-32">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
