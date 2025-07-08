@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Mountain, MapPin, Users, Star, Clock, Camera, Calendar } from "lucide-react";
+import { useState, useMemo } from "react";
 
 export default function PackagesPage() {
     const packages = [
@@ -14,6 +17,7 @@ export default function PackagesPage() {
             rating: 4.8,
             reviews: 124,
             difficulty: "Moderate",
+            category: "Adventure",
             image: "/api/placeholder/400/300",
             description: "Experience the breathtaking 192m waterfall, one of the highest single-drop waterfalls in Southern Africa. Includes abseiling, hiking, and cultural village visits.",
             highlights: [
@@ -37,6 +41,7 @@ export default function PackagesPage() {
             rating: 4.6,
             reviews: 89,
             difficulty: "Easy",
+            category: "Cultural",
             image: "/api/placeholder/400/300",
             description: "Explore the birthplace of the Basotho nation and King Moshoeshoe I's mountain fortress. Learn about Lesotho's rich history and cultural heritage.",
             highlights: [
@@ -60,6 +65,7 @@ export default function PackagesPage() {
             rating: 4.9,
             reviews: 67,
             difficulty: "Challenging",
+            category: "Adventure",
             image: "/api/placeholder/400/300",
             description: "Conquer the dramatic mountain pass to reach the highest pub in Africa. Experience breathtaking alpine scenery and traditional highland culture.",
             highlights: [
@@ -83,6 +89,7 @@ export default function PackagesPage() {
             rating: 4.7,
             reviews: 92,
             difficulty: "Easy",
+            category: "Nature",
             image: "/api/placeholder/400/300",
             description: "Discover Lesotho's premier nature reserve with diverse ecosystems, endemic flora, and pristine mountain streams in this peaceful retreat.",
             highlights: [
@@ -106,6 +113,7 @@ export default function PackagesPage() {
             rating: 4.8,
             reviews: 156,
             difficulty: "Moderate",
+            category: "Cultural",
             image: "/api/placeholder/400/300",
             description: "Experience the traditional Basotho way of travel on sure-footed mountain ponies through spectacular highland scenery and remote villages.",
             highlights: [
@@ -129,6 +137,7 @@ export default function PackagesPage() {
             rating: 4.5,
             reviews: 78,
             difficulty: "Easy",
+            category: "Family-Friendly",
             image: "/api/placeholder/400/300",
             description: "Visit Africa's second-largest double-curvature arch dam and explore the engineering marvel of the Lesotho Highlands Water Project.",
             highlights: [
@@ -154,6 +163,25 @@ export default function PackagesPage() {
 
     const durations = ["All Durations", "1 Day", "2 Days", "3+ Days"];
     const difficulties = ["All Levels", "Easy", "Moderate", "Challenging"];
+
+    // State for filters
+    const [selectedCategory, setSelectedCategory] = useState("All Packages");
+    const [selectedDuration, setSelectedDuration] = useState("All Durations");
+    const [selectedDifficulty, setSelectedDifficulty] = useState("All Levels");
+
+    // Filtered packages based on selected filters
+    const filteredPackages = useMemo(() => {
+        return packages.filter(pkg => {
+            const categoryMatch = selectedCategory === "All Packages" || pkg.category === selectedCategory;
+            const durationMatch = selectedDuration === "All Durations" ||
+                (selectedDuration === "1 Day" && pkg.duration === "1 day") ||
+                (selectedDuration === "2 Days" && pkg.duration === "2 days") ||
+                (selectedDuration === "3+ Days" && (pkg.duration === "3 days" || pkg.duration.includes("3")));
+            const difficultyMatch = selectedDifficulty === "All Levels" || pkg.difficulty === selectedDifficulty;
+
+            return categoryMatch && durationMatch && difficultyMatch;
+        });
+    }, [selectedCategory, selectedDuration, selectedDifficulty]);
 
     return (
         <div className="min-h-screen bg-white">
@@ -202,7 +230,11 @@ export default function PackagesPage() {
                         {/* Category Filter */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
                                 {categories.map((category) => (
                                     <option key={category} value={category}>{category}</option>
                                 ))}
@@ -212,7 +244,11 @@ export default function PackagesPage() {
                         {/* Duration Filter */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
-                            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <select
+                                value={selectedDuration}
+                                onChange={(e) => setSelectedDuration(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
                                 {durations.map((duration) => (
                                     <option key={duration} value={duration}>{duration}</option>
                                 ))}
@@ -222,7 +258,11 @@ export default function PackagesPage() {
                         {/* Difficulty Filter */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
-                            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <select
+                                value={selectedDifficulty}
+                                onChange={(e) => setSelectedDifficulty(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
                                 {difficulties.map((difficulty) => (
                                     <option key={difficulty} value={difficulty}>{difficulty}</option>
                                 ))}
@@ -235,105 +275,118 @@ export default function PackagesPage() {
             {/* Packages Grid */}
             <section className="py-16 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mb-6">
+                        <p className="text-gray-600">
+                            Showing {filteredPackages.length} of {packages.length} packages
+                        </p>
+                    </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {packages.map((pkg) => (
-                            <div key={pkg.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                                {/* Package Image */}
-                                <div className="h-64 bg-gray-200 flex items-center justify-center relative">
-                                    <Mountain className="h-16 w-16 text-gray-400" />
-                                    <div className="absolute top-4 right-4">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${pkg.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
-                                            pkg.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-800' :
-                                                'bg-red-100 text-red-800'
-                                            }`}>
-                                            {pkg.difficulty}
-                                        </span>
+                        {filteredPackages.length > 0 ? (
+                            filteredPackages.map((pkg) => (
+                                <div key={pkg.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                                    {/* Package Image */}
+                                    <div className="h-64 bg-gray-200 flex items-center justify-center relative">
+                                        <Mountain className="h-16 w-16 text-gray-400" />
+                                        <div className="absolute top-4 right-4">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${pkg.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                                                pkg.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-800' :
+                                                    'bg-red-100 text-red-800'
+                                                }`}>
+                                                {pkg.difficulty}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Package Info */}
-                                <div className="p-6">
-                                    <div className="flex items-start justify-between mb-3">
-                                        <div>
-                                            <h3 className="text-xl font-bold text-gray-900 mb-1">{pkg.name}</h3>
-                                            <div className="flex items-center text-gray-600 mb-2">
-                                                <MapPin className="h-4 w-4 mr-1" />
-                                                <span className="text-sm">{pkg.location}</span>
+                                    {/* Package Info */}
+                                    <div className="p-6">
+                                        <div className="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h3 className="text-xl font-bold text-gray-900 mb-1">{pkg.name}</h3>
+                                                <div className="flex items-center text-gray-600 mb-2">
+                                                    <MapPin className="h-4 w-4 mr-1" />
+                                                    <span className="text-sm">{pkg.location}</span>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="flex items-center">
+                                                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                                                    <span className="ml-1 text-sm font-medium text-gray-700">{pkg.rating}</span>
+                                                    <span className="ml-1 text-sm text-gray-500">({pkg.reviews})</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="flex items-center">
-                                                <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                                                <span className="ml-1 text-sm font-medium text-gray-700">{pkg.rating}</span>
-                                                <span className="ml-1 text-sm text-gray-500">({pkg.reviews})</span>
+
+                                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                            {pkg.description}
+                                        </p>
+
+                                        {/* Package Details */}
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            <div className="flex items-center text-gray-600">
+                                                <Clock className="h-4 w-4 mr-2" />
+                                                <span className="text-sm">{pkg.duration}</span>
+                                            </div>
+                                            <div className="flex items-center text-gray-600">
+                                                <Users className="h-4 w-4 mr-2" />
+                                                <span className="text-sm">{pkg.groupSize}</span>
+                                            </div>
+                                            <div className="flex items-center text-gray-600">
+                                                <Calendar className="h-4 w-4 mr-2" />
+                                                <span className="text-sm">Best: {pkg.bestTime}</span>
+                                            </div>
+                                            <div className="flex items-center text-gray-600">
+                                                <Camera className="h-4 w-4 mr-2" />
+                                                <span className="text-sm">Photo included</span>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                                        {pkg.description}
-                                    </p>
-
-                                    {/* Package Details */}
-                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                        <div className="flex items-center text-gray-600">
-                                            <Clock className="h-4 w-4 mr-2" />
-                                            <span className="text-sm">{pkg.duration}</span>
-                                        </div>
-                                        <div className="flex items-center text-gray-600">
-                                            <Users className="h-4 w-4 mr-2" />
-                                            <span className="text-sm">{pkg.groupSize}</span>
-                                        </div>
-                                        <div className="flex items-center text-gray-600">
-                                            <Calendar className="h-4 w-4 mr-2" />
-                                            <span className="text-sm">Best: {pkg.bestTime}</span>
-                                        </div>
-                                        <div className="flex items-center text-gray-600">
-                                            <Camera className="h-4 w-4 mr-2" />
-                                            <span className="text-sm">Photo included</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Highlights */}
-                                    <div className="mb-4">
-                                        <p className="text-sm font-medium text-gray-700 mb-2">Highlights:</p>
-                                        <div className="flex flex-wrap gap-1">
-                                            {pkg.highlights.slice(0, 3).map((highlight, index) => (
-                                                <span key={index} className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">
-                                                    {highlight}
-                                                </span>
-                                            ))}
-                                            {pkg.highlights.length > 3 && (
-                                                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                                                    +{pkg.highlights.length - 3} more
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Pricing and Action */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                                        <div>
-                                            <div className="flex items-center space-x-2">
-                                                <span className="text-2xl font-bold text-blue-600">{pkg.price}</span>
-                                                {pkg.originalPrice && (
-                                                    <span className="text-lg text-gray-400 line-through">{pkg.originalPrice}</span>
+                                        {/* Highlights */}
+                                        <div className="mb-4">
+                                            <p className="text-sm font-medium text-gray-700 mb-2">Highlights:</p>
+                                            <div className="flex flex-wrap gap-1">
+                                                {pkg.highlights.slice(0, 3).map((highlight, index) => (
+                                                    <span key={index} className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">
+                                                        {highlight}
+                                                    </span>
+                                                ))}
+                                                {pkg.highlights.length > 3 && (
+                                                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                                                        +{pkg.highlights.length - 3} more
+                                                    </span>
                                                 )}
                                             </div>
-                                            <span className="text-sm text-gray-500">per person</span>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                                Book Now
-                                            </button>
-                                            <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm">
-                                                Details
-                                            </button>
+
+                                        {/* Pricing and Action */}
+                                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                                            <div>
+                                                <div className="flex items-center space-x-2">
+                                                    <span className="text-2xl font-bold text-blue-600">{pkg.price}</span>
+                                                    {pkg.originalPrice && (
+                                                        <span className="text-lg text-gray-400 line-through">{pkg.originalPrice}</span>
+                                                    )}
+                                                </div>
+                                                <span className="text-sm text-gray-500">per person</span>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                                    Book Now
+                                                </button>
+                                                <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                                    Details
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="col-span-2 text-center py-12">
+                                <Mountain className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                                <h3 className="text-xl font-semibold text-gray-700 mb-2">No packages found</h3>
+                                <p className="text-gray-500">Try adjusting your filters to see more results.</p>
                             </div>
-                        ))}
+                        )}
                     </div>
 
                     {/* Load More */}
